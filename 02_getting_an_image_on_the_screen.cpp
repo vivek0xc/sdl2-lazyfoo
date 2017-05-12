@@ -55,13 +55,27 @@ void close()
 
 int main(int argc, char *argv[])
 {
+	bool quit = false;
+	SDL_Event e;
+
 	if(init())
 	{
 		if(loadMedia())
 		{
 			SDL_BlitSurface(gHelloWorld, NULL, gScreenSurface, NULL);
-			SDL_UpdateWindowSurface(gWindow);
-			SDL_Delay(2000);
+
+			while(!quit)
+			{
+				while(SDL_PollEvent(&e) != 0)
+				{
+					if(e.type == SDL_QUIT)
+					{
+						quit = true;
+					}
+				}
+
+				SDL_UpdateWindowSurface(gWindow);
+			}
 		}
 		close();
 	}
